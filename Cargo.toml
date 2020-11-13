@@ -1,0 +1,11 @@
+[workspace]
+
+members = [
+  "mini_test",
+  "mini_utils",
+  "mini_socket",
+  "hiredis-sys",
+  "mini_proxy",
+  
+  "mini_mysqlclient",
+]

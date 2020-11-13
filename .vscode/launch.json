@@ -1,0 +1,199 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'mini_test'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=mini_test",
+                    "--package=mini_test"
+                ],
+                "filter": {
+                    "name": "mini_test",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'mini_proxy'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=mini_proxy",
+                    "--package=mini_proxy"
+                ],
+                "filter": {
+                    "name": "mini_proxy",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'mini_service'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=mini_service",
+                    "--package=mini_service"
+                ],
+                "filter": {
+                    "name": "mini_service",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'mini_mysqlclient'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=mini_mysqlclient",
+                    "--package=mini_mysqlclient"
+                ],
+                "filter": {
+                    "name": "mini_mysqlclient",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+
+
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'test'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=test",
+                    "--package=test"
+                ],
+                "filter": {
+                    "name": "test",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'engine'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=engine"
+                ],
+                "filter": {
+                    "name": "engine",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'mini_socket'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=mini_socket"
+                ],
+                "filter": {
+                    "name": "mini_socket",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'mini_utils'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=mini_utils"
+                ],
+                "filter": {
+                    "name": "mini_utils",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+        ,
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'mini_mysqlclient'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=mini_mysqlclient"
+                ],
+                "filter": {
+                    "name": "mini_mysqlclient",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'hiredis-sys'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=hiredis-sys",
+                    "--package=hiredis-sys"
+                ],
+                "filter": {
+                    "name": "hiredis-sys",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+    ]
+}
