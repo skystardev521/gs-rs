@@ -1,0 +1,2 @@
+# gs-rs
+game server
