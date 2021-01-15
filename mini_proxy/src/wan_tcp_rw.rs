@@ -13,7 +13,6 @@ use std::net::TcpStream;
 /// Msg Id最大值
 pub const MSG_MAX_ID: u16 = 4095;
 
-
 ///数据包头长度10个字节
 /// msg id: 0 ~ 4095
 /// msg size: 0 ~ (1024 * 1024)
@@ -220,7 +219,7 @@ impl TcpSocketRw<MsgData> for WanTcpRw {
                 }
                 Ok(size) => {
                     in_pos += size;
-                    
+
                     // 分解数据包
                     if let Some(err) = br.split_data(in_pos, share_buffer, &mut vec_msg) {
                         return ReadResult::Error(vec_msg, err);
@@ -287,12 +286,12 @@ impl BufReader {
                     return Some(err);
                 }
                 //包体没有数据
-                if msize == 0{
+                if msize == 0 {
                     self.head_pos = 0;
                     //没有包体的消息
                     vec_msg.push(read_head_data!(&self.head_data));
                     continue;
-                }else{
+                } else {
                     //分配包体内存
                     self.body_pos = 0;
                     self.body_data = vec![0u8; msize];
@@ -305,12 +304,11 @@ impl BufReader {
             let min_len = min_val!(data_len, tail_len);
             copy_data!(buffer[out_pos..], self.body_data[self.body_pos..], min_len);
 
-
             //不够包体所需数据
             if data_len < tail_len {
                 self.body_pos += min_len;
                 return None;
-            }else{
+            } else {
                 self.head_pos = 0;
                 out_pos += min_len;
                 let mut msg = read_head_data!(&self.head_data);

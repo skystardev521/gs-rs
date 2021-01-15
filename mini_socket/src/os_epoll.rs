@@ -34,7 +34,7 @@ impl OSEpoll {
     #[inline]
     pub fn ctl_add_fd(&self, id: u64, fd: RawFd, ev: i32) -> Result<(), String> {
         let mut event = libc::epoll_event {
-            u64: id,//as libc::c_ulonglong),
+            u64: id, //as libc::c_ulonglong),
             events: (EPOLL_EVENTS | ev) as u32,
         };
         unsafe {
@@ -48,7 +48,7 @@ impl OSEpoll {
     #[inline]
     pub fn ctl_mod_fd(&self, id: u64, fd: RawFd, ev: i32) -> Result<(), String> {
         let mut event = libc::epoll_event {
-            u64: id,//as libc::c_ulonglong),
+            u64: id, //as libc::c_ulonglong),
             events: (EPOLL_EVENTS | ev) as u32,
         };
         unsafe {
@@ -62,7 +62,7 @@ impl OSEpoll {
     #[inline]
     pub fn ctl_del_fd(&self, id: u64, fd: RawFd) -> Result<(), String> {
         let mut event = libc::epoll_event {
-            u64: id,//as libc::c_ulonglong),
+            u64: id, //as libc::c_ulonglong),
             events: 0,
         };
 

@@ -3,10 +3,10 @@ use crate::os_socket;
 use crate::tcp_listen::TcpListen;
 use crate::tcp_listen_config::TcpListenConfig;
 use crate::tcp_socket_mgmt::TcpSocketMgmt;
+use crate::tcp_socket_msg::SProtoId;
 use crate::tcp_socket_rw::ReadResult;
 use crate::tcp_socket_rw::TcpSocketRw;
 use crate::tcp_socket_rw::WriteResult;
-use crate::tcp_socket_msg::{SProtoId};
 
 use libc;
 use log::{error, info, warn};
@@ -105,7 +105,7 @@ where
                     return Ok(());
                 }
                 tcp_socket.epevs = EPOLL_IN_OUT;
-                return os_epoll.ctl_mod_fd(cid , tcp_socket.socket.as_raw_fd(), EPOLL_IN_OUT);
+                return os_epoll.ctl_mod_fd(cid, tcp_socket.socket.as_raw_fd(), EPOLL_IN_OUT);
             }
             WriteResult::Error(err) => return Err(err),
         }
@@ -178,7 +178,7 @@ where
                 tcp_socket.push_vec_queue(msg);
 
                 if tcp_socket.vec_queue_len() == 1 {
-                    if let Err(err) = Self::write_data(cid, &self.os_epoll,tcp_socket) {
+                    if let Err(err) = Self::write_data(cid, &self.os_epoll, tcp_socket) {
                         self.del_tcp_socket(cid);
                         info!("cid:{} write_data  err:{}", cid, err);
                         (self.exc_msg_cb_fn)(cid, SProtoId::Disconnect);
@@ -236,7 +236,7 @@ where
 
         let raw_fd = socket.as_raw_fd();
 
-        if self.config.socket_read_buffer > 0{
+        if self.config.socket_read_buffer > 0 {
             if let Err(err) = os_socket::setsockopt(
                 raw_fd,
                 libc::SOL_SOCKET,
@@ -247,8 +247,8 @@ where
                 return;
             }
         }
-        
-        if self.config.socket_write_buffer > 0{
+
+        if self.config.socket_write_buffer > 0 {
             if let Err(err) = os_socket::setsockopt(
                 raw_fd,
                 libc::SOL_SOCKET,
@@ -259,7 +259,7 @@ where
                 return;
             }
         }
-        
+
         match self.tcp_socket_mgmt.add_tcp_socket::<TBRW>(socket) {
             Ok(cid) => {
                 info!("tcp_socket_mgmt.add_tcp_socket cid:{}", cid);
@@ -281,7 +281,7 @@ where
                 let rawfd = tcp_socket.socket.as_raw_fd();
                 if let Err(err) = self.os_epoll.ctl_del_fd(cid, rawfd) {
                     warn!("os_epoll.ctl_del_fd({}) Error:{}", cid, err);
-                }else{
+                } else {
                     warn!("os_epoll.ctl_del_fd({})", cid);
                 }
             }

@@ -10,9 +10,9 @@ mod config;
 mod lan_service;
 mod lan_tcp_rw;
 mod mucid_route;
+mod service;
 mod wan_service;
 mod wan_tcp_rw;
-mod service;
 
 use mini_utils::time;
 

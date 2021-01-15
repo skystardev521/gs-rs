@@ -219,7 +219,7 @@ impl TcpSocketRw<MsgData> for LanTcpRw {
                 }
                 Ok(size) => {
                     in_pos += size;
-                    
+
                     // 分解数据包
                     if let Some(err) = br.split_data(in_pos, share_buffer, &mut vec_msg) {
                         return ReadResult::Error(vec_msg, err);
@@ -276,7 +276,7 @@ impl BufReader {
                 }
 
                 out_pos += tail_len;
-                
+
                 //数据够包头长度，获取包头数据
                 let (mid, msize) = head_sign_data!(read_head_u32!(&self.head_data));
 
@@ -285,12 +285,12 @@ impl BufReader {
                 }
 
                 //包体没有数据
-                if msize == 0{
+                if msize == 0 {
                     self.head_pos = 0;
                     //没有包体的消息
                     vec_msg.push(read_head_data!(&self.head_data));
                     continue;
-                }else{
+                } else {
                     //分配包体内存
                     self.body_pos = 0;
                     self.body_data = vec![0u8; msize];
@@ -308,7 +308,7 @@ impl BufReader {
             if data_len < tail_len {
                 self.body_pos += min_len;
                 return None;
-            }else{
+            } else {
                 self.head_pos = 0;
                 out_pos += min_len;
                 let mut msg = read_head_data!(&self.head_data);

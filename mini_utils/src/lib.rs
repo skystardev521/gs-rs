@@ -1,7 +1,8 @@
 pub mod bytes;
 pub mod logger;
-pub mod time;
-pub mod worker;
-pub mod wconfig;
-pub mod wtimer;
+pub mod signal;
 pub mod stack;
+pub mod time;
+pub mod wconfig;
+pub mod worker;
+pub mod wtimer;

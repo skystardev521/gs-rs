@@ -26,7 +26,7 @@ impl MucIdRoute {
     pub fn add_cid(&mut self, cid: u64) {
         self.cid_uid.insert(cid, 0);
     }
-    
+
     /// 增加 连接id 与 用户Id
     #[inline]
     pub fn add_cid_uid(&mut self, cid: u64, uid: u64) {
@@ -39,7 +39,7 @@ impl MucIdRoute {
     pub fn cid_to_uid(&self, cid: u64) -> Option<&u64> {
         self.cid_uid.get(&cid)
     }
-    
+
     /// 根据用户Id 获取 连接id
     #[inline]
     pub fn uid_to_cid(&self, uid: u64) -> Option<&u64> {
@@ -72,30 +72,28 @@ impl MucIdRoute {
 
     #[inline]
     /// 根据协议Id, (负载均衡)id, 来获取服务Id
-    pub fn get_sid(&self, pid: u16, hash_id: u64)->Option<u64>{
-        match self.mid_sid.get(&pid){
-            Some(vec_sid)=>{
-                Some(vec_sid[(hash_id % (vec_sid.len() as u64)) as usize])
-            }
-            None=>None
+    pub fn get_sid(&self, pid: u16, hash_id: u64) -> Option<u64> {
+        match self.mid_sid.get(&pid) {
+            Some(vec_sid) => Some(vec_sid[(hash_id % (vec_sid.len() as u64)) as usize]),
+            None => None,
         }
     }
 
     #[inline]
     /// 根据协议Id, 获取处理这条协议id的 所有服务Id
-    pub fn get_vec_sid(&self, pid: u16)->Option<&Vec<u64>>{
+    pub fn get_vec_sid(&self, pid: u16) -> Option<&Vec<u64>> {
         self.mid_sid.get(&pid)
     }
 
     #[inline]
     /// 增加 sid(服务id) 及 服务支持所有协议  
-    pub fn add_sid(&mut self, sid:u64, vec_pid: Vec<u16>){
+    pub fn add_sid(&mut self, sid: u64, vec_pid: Vec<u16>) {
         for pid in vec_pid {
-            match self.mid_sid.get_mut(&pid){
-                Some(vec_sid)=>{
+            match self.mid_sid.get_mut(&pid) {
+                Some(vec_sid) => {
                     vec_sid.push(sid);
                 }
-                None=>{
+                None => {
                     self.mid_sid.insert(pid, vec![sid]);
                 }
             }
@@ -104,26 +102,31 @@ impl MucIdRoute {
 
     #[inline]
     /// 删除sid(服务id) 及 服务的所有协议  
-    pub fn del_sid(&mut self, sid:u64){
-        self.mid_sid.retain(|_, vec_sid|{
-            vec_sid.retain(|&val|{ val != sid });
+    pub fn del_sid(&mut self, sid: u64) {
+        self.mid_sid.retain(|_, vec_sid| {
+            vec_sid.retain(|&val| val != sid);
             0 != vec_sid.len()
         })
     }
 }
 
 #[test]
-fn test(){
+fn test() {
     let mut mucid_route = MucIdRoute::new();
 
-    mucid_route.add_sid(1, vec![1,2,3,4,5]);
-    mucid_route.add_sid(11, vec![1,2,3,4,5]);
-    mucid_route.add_sid(2, vec![6,7,8,9,10]);
-    mucid_route.add_sid(22, vec![6,7,8,9,10]);
-    mucid_route.add_sid(3, vec![11,12,13,14,15]);
-    mucid_route.add_sid(33, vec![11,12,13,14,15]);
+    mucid_route.add_sid(1, vec![1, 2, 3, 4, 5]);
+    mucid_route.add_sid(11, vec![1, 2, 3, 4, 5]);
+    mucid_route.add_sid(2, vec![6, 7, 8, 9, 10]);
+    mucid_route.add_sid(22, vec![6, 7, 8, 9, 10]);
+    mucid_route.add_sid(3, vec![11, 12, 13, 14, 15]);
+    mucid_route.add_sid(33, vec![11, 12, 13, 14, 15]);
 
-    println!("pid:{} uid:{}, sid:{}", 8, 13, mucid_route.get_sid(8, 13).unwrap());
+    println!(
+        "pid:{} uid:{}, sid:{}",
+        8,
+        13,
+        mucid_route.get_sid(8, 13).unwrap()
+    );
 
     mucid_route.del_sid(3);
 

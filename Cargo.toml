@@ -2,10 +2,10 @@
 
 members = [
   "mini_test",
+  "pq-sys",
   "mini_utils",
   "mini_socket",
   "hiredis-sys",
   "mini_proxy",
-  
   "mini_mysqlclient",
 ]

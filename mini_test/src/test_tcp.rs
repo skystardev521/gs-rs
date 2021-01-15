@@ -1,9 +1,9 @@
 use log::{error, info, warn};
 
 use mini_socket::tcp_socket::TcpSocket;
+use mini_socket::tcp_socket_msg::MsgData;
 use mini_socket::tcp_socket_rw::ReadResult;
 use mini_socket::tcp_socket_rw::WriteResult;
-use mini_socket::tcp_socket_msg::MsgData;
 use mini_utils::bytes;
 
 use std::net::Shutdown;
@@ -24,7 +24,7 @@ pub fn test() {
 
     thread::sleep(std::time::Duration::from_secs(1));
 
-    for _ in 0..1{
+    for _ in 0..1 {
         thread_pool.push(new_client().unwrap());
     }
 
@@ -56,7 +56,7 @@ fn loop_write(socket: TcpStream) -> thread::JoinHandle<()> {
             if msg_num % 100 == 0 {
                 info!("write data:{} {:?}", msg_num, thread::current().id());
             }
-            if msg_num % 100 == 0{
+            if msg_num % 100 == 0 {
                 thread::sleep(std::time::Duration::from_millis(1));
             }
             if write(&mut client) == false {
@@ -71,11 +71,11 @@ fn encode(ext: u32) -> MsgData {
     let rlen: usize = 100 + (ext % 300) as usize;
     let mut buf = vec![0u8; rlen];
     bytes::write_bytes(&mut buf, &str.as_bytes()[0..rlen]);
-    MsgData{
+    MsgData {
         uid: 0,
         pid: 258,
         ext: ext,
-        buf: buf
+        buf: buf,
     }
 }
 
@@ -117,17 +117,17 @@ fn read(client: &mut TcpSocket<MsgData>) -> bool {
     loop {
         match client.read(&mut share_buffer) {
             ReadResult::Data(vec_msg) => {
-                if vec_msg.is_empty(){
+                if vec_msg.is_empty() {
                     thread::sleep(std::time::Duration::from_millis(1));
                 }
-                for msg in vec_msg.iter(){
+                for msg in vec_msg.iter() {
                     if msg.ext % 10000 == 0 {
                         info!("read ext data:{} {:?}", msg.ext, thread::current().id());
                     }
                 }
             }
             ReadResult::Error(vec_msg, err) => {
-                for msg in vec_msg.iter(){
+                for msg in vec_msg.iter() {
                     if msg.ext % 10000 == 0 {
                         info!("read ext data:{} {:?}", msg.ext, thread::current().id());
                     }

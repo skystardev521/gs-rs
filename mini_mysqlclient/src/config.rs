@@ -9,11 +9,7 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new(
-        worker_num: u8,
-        wconfig: WConfig,
-        vec_connect_config: Vec<ConnConfig>,
-    ) -> Self {
+    pub fn new(worker_num: u8, wconfig: WConfig, vec_connect_config: Vec<ConnConfig>) -> Self {
         Config {
             worker_num,
             wconfig,

@@ -18,13 +18,12 @@ pub struct TcpConnectConfig {
     /// default: 10240
     pub msg_deque_size: usize,
 
-
     /// default:0
     /// 设置太少会阻塞网络通信
     /// 外网要设置大小防攻击，一般8192
     /// 局域网设置为:0 由系统分配 tcp_window_scaling = 1
     pub socket_read_buffer: u32,
-    
+
     /// default:0
     /// 设置太少会阻塞网络通信
     /// 外网要设置大小防攻击，一般8192

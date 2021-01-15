@@ -2,9 +2,9 @@ use mini_utils::logger::Logger;
 use mini_utils::time;
 use std::ptr::{self};
 
+use crate::qresult::ITCData;
 use crate::qresult::MysqlResult;
 use crate::qresult::QueryResult;
-use crate::qresult::ITCData;
 
 use crate::config::Config;
 use crate::config::ConnConfig;

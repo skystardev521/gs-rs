@@ -1,6 +1,6 @@
-use crate::tcp_socket_msg::SProtoId;
 use crate::os_epoll::OSEpoll;
 use crate::os_socket;
+use crate::tcp_socket_msg::SProtoId;
 use crate::tcp_socket_rw::ReadResult;
 use crate::tcp_socket_rw::TcpSocketRw;
 use crate::tcp_socket_rw::WriteResult;
@@ -212,13 +212,12 @@ where
                 buffer_size = cfg.socket_read_buffer;
             }
         }
-        if buffer_size == 0{
+        if buffer_size == 0 {
             buffer_size = 1048576;
         }
         buffer_size as usize
     }
 }
-
 
 fn init_tcp_connect<TBRW, MSG>(
     os_epoll: &OSEpoll,

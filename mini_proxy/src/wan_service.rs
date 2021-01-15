@@ -1,4 +1,4 @@
-use mini_socket::tcp_socket_msg::{MsgData,SProtoId};
+use mini_socket::tcp_socket_msg::{MsgData, SProtoId};
 
 use crate::wan_tcp_rw::WanTcpRw;
 use mini_socket::tcp_listen_config::TcpListenConfig;
@@ -10,7 +10,7 @@ use std::sync::mpsc::SyncSender;
 use std::sync::mpsc::TryRecvError;
 use std::sync::mpsc::TrySendError;
 
-use log::{error};
+use log::error;
 use mini_utils::worker::RecvResEnum;
 use mini_utils::worker::SendResEnum;
 use mini_utils::worker::Worker;
@@ -133,7 +133,7 @@ fn worker_closure(
                         Ok(msg_data) => {
                             if msg_data.pid == SProtoId::Disconnect as u16 {
                                 tcp_listen_service.del_tcp_socket(msg_data.uid);
-                            }else{
+                            } else {
                                 //这里要优化 判断是否广播消息
                                 tcp_listen_service.write_msg(msg_data.uid, msg_data);
                             }

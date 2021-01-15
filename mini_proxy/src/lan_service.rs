@@ -1,7 +1,7 @@
 use crate::lan_tcp_rw::LanTcpRw;
-use mini_socket::tcp_socket_msg::{SrvMsg,MsgData,SProtoId};
 use mini_socket::tcp_listen_config::TcpListenConfig;
 use mini_socket::tcp_listen_service::TcpListenService;
+use mini_socket::tcp_socket_msg::{MsgData, SProtoId, SrvMsg};
 use mini_utils::wconfig::WConfig;
 
 use std::sync::mpsc::Receiver;

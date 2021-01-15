@@ -1,17 +1,23 @@
 //use std::thread;
-use mini_utils::logger::Logger;
-pub mod test_tcp;
-pub mod wan_tcp_rw;
-use std::env;
 
+pub mod json;
+pub mod proto;
+pub mod test_tcp;
+pub mod toml;
+pub mod wan_tcp_rw;
+
+#[macro_use]
+use mini_utils::signal;
+
+use hiredis_sys::RedisClient;
+use mini_utils::logger::Logger;
 use mini_utils::wtimer::TestIWTask;
 use mini_utils::wtimer::WTimer;
 
-use hiredis_sys::RedisClient;
-
-pub struct ThreadPool {
-    //handlers: Vec<thread::JoinHandle<()>>,
-}
+use std::time::Duration;
+use tokio::time::sleep;
+use tokio::net::TcpListener;
+use tokio::io::{AsyncReadExt, AsyncWriteExt};
 
 trait Hello {
     fn say_hi(&self);
@@ -34,11 +40,11 @@ impl Hello for TestHello {
 }
 
 impl TestHello {
-    pub fn new()->Self{
-        TestHello{v:0}
+    pub fn new() -> Self {
+        TestHello { v: 0 }
     }
-    pub fn test_mut(&self)->&mut Self{
-        unsafe {&mut * (self as *const Self as * mut Self)}
+    pub fn test_mut(&self) -> &mut Self {
+        unsafe { &mut *(self as *const Self as *mut Self) }
     }
 }
 
@@ -86,21 +92,76 @@ pub fn test_redis_client() {
 }
 
 #[test]
-fn test_fn(){
+fn test_fn() {
     TestHello::new().test_mut();
     println!("xxx:");
 }
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    
+    let (v1, v2, v3) = tokio::join!(
+        async {
+            sleep(Duration::from_millis(1500)).await;
+            println!("Value 1 ready");
+            "Value 1"
+        },
+        async {
+            sleep(Duration::from_millis(2800)).await;
+            println!("Value 2 ready");
+            "Value 2"
+        },
+        async {
+            sleep(Duration::from_millis(600)).await;
+            println!("Value 3 ready");
+            "Value 3"
+        },
+    );
 
+    assert_eq!(v1, "Value 1");
+    assert_eq!(v2, "Value 2");
+    assert_eq!(v3, "Value 3");
+    
+    let mut listener = TcpListener::bind("127.0.0.1:8080").await?;
 
+    loop {
+        let (mut socket, _) = listener.accept().await?;
+
+        tokio::spawn(async move {
+            let mut buf = [0; 1024];
+
+            // In a loop, read data from the socket and write the data back.
+            loop {
+                let n = match socket.read(&mut buf).await {
+                    // socket closed
+                    Ok(n) if n == 0 => return,
+                    Ok(n) => n,
+                    Err(e) => {
+                        eprintln!("failed to read from socket; err = {:?}", e);
+                        return;
+                    }
+                };
+
+                // Write the data back
+                if let Err(e) = socket.write_all(&buf[0..n]).await {
+                    eprintln!("failed to write to socket; err = {:?}", e);
+                    return;
+                }
+            }
+        });
+    }
+}
+
+/*
 fn main() {
 
+    
     match Logger::init(&String::from("info"), &String::from("logs/test_log.log")) {
         Ok(()) => (),
         Err(err) => println!("Logger::init error:{}", err),
     }
 
     test_tcp::test();
-    
+
     test_redis_client();
 
     let mut wtimer = WTimer::new(1);
@@ -134,8 +195,6 @@ fn main() {
     let xxx = vec![0u8; 10];
     */
 
-    
-
     /*
         let mut thread_pool: Vec<thread::JoinHandle<()>> = vec![];
 
@@ -151,3 +210,4 @@ fn main() {
 
     //let mut hm: std::collections::HashMap<&str, i32> = std::collections::HashMap::new();
 }
+*/

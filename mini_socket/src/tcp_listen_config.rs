@@ -21,7 +21,7 @@ pub struct TcpListenConfig {
     /// default: 1毫秒
     /// epoll等待网络事件时长
     pub epoll_wait_timeout: i32,
-    
+
     /// defalut: 256
     /// 待发送的最大消息数
     /// 局域网设置建议设置2048以上
@@ -40,7 +40,6 @@ pub struct TcpListenConfig {
     /// 外网要设置大小防攻击，一般8192
     /// 局域网设置为:0 由系统分配 tcp_window_scaling = 1
     pub socket_write_buffer: u32,
-    
 }
 
 impl TcpListenConfig {
